@@ -1,1 +1,2 @@
-# 1st_game
+jakies readmi
+miki maupa :D
