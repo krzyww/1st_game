@@ -6,9 +6,17 @@ WIN = pygame.display.set_mode((WIDTH,HEIGHT))
 FPS = 60
 
 
+def draw_window():
+    WIN.fill((111,111,111))
+    
+    
+    
+    pygame.display.update()
+
+
 
 def main():
-
+    
     clock = pygame.time.Clock()
     run = True
     while run:
@@ -16,7 +24,11 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-                pygame.quit()
+
+        draw_window()
+
+    pygame.quit()
+
 
 
 
