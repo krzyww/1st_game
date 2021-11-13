@@ -2,11 +2,19 @@ import pygame
 import os
 import random
 
+
+pygame.font.init()
+
+
+WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
 FPS = 60
 VEL = 10
 BULLET_VEL = 15
+
+HIT = pygame.USEREVENT + 1
+HIT_FONT = pygame.font.SysFont('consolas', 40)
 
 WIDTH, HEIGHT = 1200, 1200
 WIN = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -23,16 +31,16 @@ BULLET_WIDTH, BULLET_HEIGHT = 20, 20
 BULLET_IMAGE = pygame.image.load(os.path.join('assets','bullet.png'))
 BULLET = pygame.transform.scale(BULLET_IMAGE, (BULLET_WIDTH, BULLET_HEIGHT))
 
-
-
-def draw_window(player, enemies, bullets):
+def draw_window(player, enemies, bullets, hits):
     WIN.fill((111,111,120))
     WIN.blit(SHIP, (player.x, player.y))
     for ene in enemies:
         WIN.blit(ENEMY1, (ene.x, ene.y))
-    
     for bul in bullets:
         WIN.blit(BULLET, bul)
+
+    aaa = HIT_FONT.render("Hits: " + str(hits), 1, WHITE)
+    WIN.blit(aaa,(0,0))
     pygame.display.update()
 
 def player_movement(keys_pressed, player):
@@ -63,16 +71,18 @@ def handle_bullets(bullets,enemies):
             elif bullet.colliderect(ene):
                 bullets.remove(bul)
                 enemies.remove(ene)
-
+                pygame.event.post(pygame.event.Event(HIT))
+                enemies.append(pygame.Rect(random.randint(1,1100), random.randint(1,300), ENEMY1_WIDTH, ENEMY1_HEIGHT))
 
 def main():
     player = pygame.Rect(600, 800, SHIP_WIDTH, SHIP_HIGHT)    
     enemy  = pygame.Rect(300, 150, ENEMY1_WIDTH, ENEMY1_HEIGHT)
-    enemy2 = pygame.Rect(600, 150, ENEMY1_WIDTH, ENEMY1_HEIGHT)
+    enemy2 = pygame.Rect(random.randint(1,1100), random.randint(1,300), ENEMY1_WIDTH, ENEMY1_HEIGHT)
 
     bullets = []
     enemies = [enemy, enemy2]
-
+    hits = 0
+ 
     clock = pygame.time.Clock()
     run = True
     while run:
@@ -82,15 +92,17 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LCTRL:
+                if event.key == pygame.K_RCTRL:
                     img_bull_position = [player.x + SHIP_WIDTH//2 - BULLET_WIDTH//2, player.y]
                     bullets.append(img_bull_position)
+            if event.type == HIT:
+                hits += 1
 
         keys_pressed = pygame.key.get_pressed()
         handle_bullets(bullets, enemies)
         player_movement(keys_pressed, player)
         enemy_movement_1(enemies)
-        draw_window(player, enemies, bullets)
+        draw_window(player, enemies, bullets, hits)
 
     pygame.quit()
 
