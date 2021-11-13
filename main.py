@@ -25,10 +25,12 @@ BULLET = pygame.transform.scale(BULLET_IMAGE, (BULLET_WIDTH, BULLET_HEIGHT))
 
 
 
-def draw_window(player, enemy, bullets):
+def draw_window(player, enemies, bullets):
     WIN.fill((111,111,120))
     WIN.blit(SHIP, (player.x, player.y))
-    WIN.blit(ENEMY1, (enemy.x, enemy.y))
+    for ene in enemies:
+        WIN.blit(ENEMY1, (ene.x, ene.y))
+    
     for bul in bullets:
         WIN.blit(BULLET, bul)
     pygame.display.update()
@@ -43,25 +45,33 @@ def player_movement(keys_pressed, player):
     if keys_pressed[pygame.K_UP] and player.y > 0:     #up
         player.y -= VEL
 
-def enemy_movement_1(enemy):
-    enemy.x += random.randint(-5,5)
-    enemy.y += random.randint(-5,6)
+def enemy_movement_1(enemies):
+    for ene in enemies:
+        ene.x += random.randint(-5,5)
+        ene.y += random.randint(-5,6)
 
-def handle_bullets(bullets,enemy):
+def handle_bullets(bullets,enemies):
     for bul in bullets:
         bul[1] = int(bul[1]) - BULLET_VEL
         bullet = pygame.Rect(bul[0], bul[1], BULLET_WIDTH, BULLET_HEIGHT)
-        if bullet.colliderect(enemy):
-            bullets.remove(bul)
-        elif bul[1] < 0:
-            bullets.remove(bul)
+        for ene in enemies:
+            if bul[1] < 0:
+                try:
+                    bullets.remove(bul)
+                except ValueError:
+                    pass
+            elif bullet.colliderect(ene):
+                bullets.remove(bul)
+                enemies.remove(ene)
+
 
 def main():
-    player = pygame.Rect(600, 800, SHIP_WIDTH, SHIP_HIGHT)
-    enemy = pygame.Rect(600, 150, ENEMY1_WIDTH, ENEMY1_HEIGHT)
-    
+    player = pygame.Rect(600, 800, SHIP_WIDTH, SHIP_HIGHT)    
+    enemy  = pygame.Rect(300, 150, ENEMY1_WIDTH, ENEMY1_HEIGHT)
+    enemy2 = pygame.Rect(600, 150, ENEMY1_WIDTH, ENEMY1_HEIGHT)
+
     bullets = []
-    enemies = []
+    enemies = [enemy, enemy2]
 
     clock = pygame.time.Clock()
     run = True
@@ -77,10 +87,10 @@ def main():
                     bullets.append(img_bull_position)
 
         keys_pressed = pygame.key.get_pressed()
-        handle_bullets(bullets, enemy)
+        handle_bullets(bullets, enemies)
         player_movement(keys_pressed, player)
-        enemy_movement_1(enemy)
-        draw_window(player, enemy, bullets)
+        enemy_movement_1(enemies)
+        draw_window(player, enemies, bullets)
 
     pygame.quit()
 
