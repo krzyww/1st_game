@@ -31,8 +31,11 @@ BULLET_WIDTH, BULLET_HEIGHT = 20, 20
 BULLET_IMAGE = pygame.image.load(os.path.join('assets','bullet.png'))
 BULLET = pygame.transform.scale(BULLET_IMAGE, (BULLET_WIDTH, BULLET_HEIGHT))
 
+BKG_IMAGE = pygame.image.load(os.path.join('assets','background.png'))
+BKG = pygame.transform.scale(BKG_IMAGE, (WIDTH, HEIGHT))
+
 def draw_window(player, enemies, bullets, hits):
-    WIN.fill((111,111,120))
+    WIN.blit(BKG,(0,0))
     WIN.blit(SHIP, (player.x, player.y))
     for ene in enemies:
         WIN.blit(ENEMY1, (ene.x, ene.y))
