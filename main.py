@@ -21,18 +21,17 @@ ENEMY1 = pygame.transform.scale(ENEMY1_IMAGE, (ENEMY1_WIDTH, ENEMY1_HEIGHT))
 
 BULLET_WIDTH, BULLET_HEIGHT = 20, 20
 BULLET_IMAGE = pygame.image.load(os.path.join('assets','bullet.png'))
-BULLET2 = pygame.transform.scale(BULLET_IMAGE, (BULLET_WIDTH, BULLET_HEIGHT))
+BULLET = pygame.transform.scale(BULLET_IMAGE, (BULLET_WIDTH, BULLET_HEIGHT))
 
 
 
-def draw_window(player, enemy, bullets, imgbull):
+def draw_window(player, enemy, bullets):
     WIN.fill((111,111,120))
     WIN.blit(SHIP, (player.x, player.y))
     WIN.blit(ENEMY1, (enemy.x, enemy.y))
-    for bullet in bullets:
-        pygame.draw.rect(WIN, BLUE, bullet)
-    for bul in imgbull:
-        WIN.blit(BULLET2, bul)
+
+    for bul in bullets:
+        WIN.blit(BULLET, bul)
     pygame.display.update()
 
 def player_movement(keys_pressed, player):
@@ -46,33 +45,24 @@ def player_movement(keys_pressed, player):
         player.y -= VEL
 
 def enemy_movement_1(enemy):
-    enemy.x += random.randint(-50,50)
-    enemy.y += random.randint(-50,60)
+    enemy.x += random.randint(-5,5)
+    enemy.y += random.randint(-5,6)
 
-def handle_bullets(bullets, enemy):
-    for bullet in bullets:
-        bullet.y -= BULLET_VEL
-        if bullet.colliderect(enemy):
-            bullets.remove(bullet)
-            
-        elif bullet.y < 0:
-            bullets.remove(bullet)
 
-def handle_bullets2(imgbull,enemy):
-    for bul in imgbull:
+def handle_bullets(bullets,enemy):
+    for bul in bullets:
         bul[1] = int(bul[1]) - BULLET_VEL
         a = pygame.Rect(bul[0], bul[1], BULLET_WIDTH, BULLET_HEIGHT)
         if a.colliderect(enemy):
-            imgbull.remove(bul)
+            bullets.remove(bul)
         elif bul[1] < 0:
-            imgbull.remove(bul)
+            bullets.remove(bul)
 
 def main():
     player = pygame.Rect(600, 800, SHIP_WIDTH, SHIP_HIGHT)
     enemy = pygame.Rect(600, 150, ENEMY1_WIDTH, ENEMY1_HEIGHT)
     
     bullets = []
-    imgbull = []
     enemies = []
 
     clock = pygame.time.Clock()
@@ -85,18 +75,15 @@ def main():
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LCTRL:
-                    bullet = pygame.Rect(player.x + SHIP_WIDTH-20, player.y+20, BULLET_WIDTH, BULLET_WIDTH)
-                    bullets.append(bullet)
-                    img_bull_position = [player.x , player.y+20]
-                    imgbull.append(img_bull_position)
+                    img_bull_position = [player.x + SHIP_WIDTH//2 - BULLET_WIDTH//2, player.y+20]
+                    bullets.append(img_bull_position)
 
 
         keys_pressed = pygame.key.get_pressed()
         handle_bullets(bullets, enemy)
-        handle_bullets2(imgbull, enemy)
         player_movement(keys_pressed, player)
         enemy_movement_1(enemy)
-        draw_window(player, enemy, bullets, imgbull)
+        draw_window(player, enemy, bullets)
 
     pygame.quit()
 
