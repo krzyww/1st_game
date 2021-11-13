@@ -29,7 +29,6 @@ def draw_window(player, enemy, bullets):
     WIN.fill((111,111,120))
     WIN.blit(SHIP, (player.x, player.y))
     WIN.blit(ENEMY1, (enemy.x, enemy.y))
-
     for bul in bullets:
         WIN.blit(BULLET, bul)
     pygame.display.update()
@@ -48,12 +47,11 @@ def enemy_movement_1(enemy):
     enemy.x += random.randint(-5,5)
     enemy.y += random.randint(-5,6)
 
-
 def handle_bullets(bullets,enemy):
     for bul in bullets:
         bul[1] = int(bul[1]) - BULLET_VEL
-        a = pygame.Rect(bul[0], bul[1], BULLET_WIDTH, BULLET_HEIGHT)
-        if a.colliderect(enemy):
+        bullet = pygame.Rect(bul[0], bul[1], BULLET_WIDTH, BULLET_HEIGHT)
+        if bullet.colliderect(enemy):
             bullets.remove(bul)
         elif bul[1] < 0:
             bullets.remove(bul)
@@ -75,9 +73,8 @@ def main():
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LCTRL:
-                    img_bull_position = [player.x + SHIP_WIDTH//2 - BULLET_WIDTH//2, player.y+20]
+                    img_bull_position = [player.x + SHIP_WIDTH//2 - BULLET_WIDTH//2, player.y]
                     bullets.append(img_bull_position)
-
 
         keys_pressed = pygame.key.get_pressed()
         handle_bullets(bullets, enemy)
