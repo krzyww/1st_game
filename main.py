@@ -35,7 +35,7 @@ BKG_IMAGE = pygame.image.load(os.path.join('assets','background.png'))
 BKG = pygame.transform.scale(BKG_IMAGE, (WIDTH, HEIGHT))
 
 def draw_window(player, enemies, bullets, hits):
-    WIN.blit(BKG,(0,0))
+    WIN.blit(BKG,(0, 0))
     WIN.blit(SHIP, (player.x, player.y))
     for ene in enemies:
         WIN.blit(ENEMY1, (ene.x, ene.y))
@@ -77,13 +77,19 @@ def handle_bullets(bullets,enemies):
                 pygame.event.post(pygame.event.Event(HIT))
                 enemies.append(pygame.Rect(random.randint(1,1100), random.randint(1,300), ENEMY1_WIDTH, ENEMY1_HEIGHT))
 
+
+def enemyy():
+    return pygame.Rect(random.randint(1,1100), random.randint(1,300), ENEMY1_WIDTH, ENEMY1_HEIGHT)
+
+
 def main():
     player = pygame.Rect(600, 800, SHIP_WIDTH, SHIP_HIGHT)    
     enemy  = pygame.Rect(300, 150, ENEMY1_WIDTH, ENEMY1_HEIGHT)
     enemy2 = pygame.Rect(random.randint(1,1100), random.randint(1,300), ENEMY1_WIDTH, ENEMY1_HEIGHT)
 
+
     bullets = []
-    enemies = [enemy, enemy2]
+    enemies = [enemy, enemy2, enemyy(), enemyy(), enemyy(), enemyy(), enemyy()]
     hits = 0
  
     clock = pygame.time.Clock()
@@ -95,7 +101,7 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RCTRL:
+                if event.key == pygame.K_LCTRL:
                     img_bull_position = [player.x + SHIP_WIDTH//2 - BULLET_WIDTH//2, player.y]
                     bullets.append(img_bull_position)
             if event.type == HIT:
