@@ -1,21 +1,24 @@
 import pygame
-import random
-from assets.assets import img
+import random, os
 
 class DefaultEnemy:
     def __init__(self) -> None:
+        self.width = 30
+        self.height = 30
+        self.image = pygame.image.load(os.path.join('assets','enemy.png'))
+        self.enemy = pygame.transform.scale(self.image, (self.width, self.height))
         self.start_x = random.randint(1,1100)
         self.start_y = random.randint(1,300)
-        self.size_x = img.ENEMY1_WIDTH
-        self.size_y = img.ENEMY1_HEIGHT
+        self.rect = pygame.Rect(self.start_x, self.start_y, self.width, self.height)
 
 
-class Enemy(DefaultEnemy):
+class SmallEnemy(DefaultEnemy):
     def __init__(self) -> None:
         super().__init__()
 
+class BigEnemy(DefaultEnemy):
+    def __init__(self) -> None:
 
-    def small_enemy(self):
-        
-        return pygame.Rect(self.start_x, self.start_y,
-                           self.size_x, self.size_y)
+        super().__init__()
+        self.width = 100
+        self.height = 100

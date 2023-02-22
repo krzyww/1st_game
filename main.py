@@ -1,14 +1,14 @@
 import pygame
 import random
 from assets.assets import img
-from entities import Enemy
+from entities import SmallEnemy, BigEnemy
 
 
 def draw_window(player, enemies: list, bullets: list, hits: int):
     img.WIN.blit(img.BKG,(0, 0))
     img.WIN.blit(img.SHIP, (player.x, player.y))
     for ene in enemies:
-        img.WIN.blit(img.ENEMY1, (ene.x, ene.y))
+        img.WIN.blit(ene.enemy, (ene.rect.x, ene.rect.y))
     for bul in bullets:
         img.WIN.blit(img.BULLET, bul)
 
@@ -28,10 +28,10 @@ def player_movement(keys_pressed, player):
 
 def enemy_movement_1(enemies: list):
     for ene in enemies:
-        ene.x += random.randint(-5,5)
-        ene.y += random.randint(-5,6)
+        ene.rect.x += random.randint(-5,5)
+        ene.rect.y += random.randint(-5,6)
 
-def handle_bullets(bullets: list,enemies: list):
+def handle_bullets(bullets: list, enemies: list):
     for bul in bullets:
         bul[1] = int(bul[1]) - img.BULLET_VEL
         bullet = pygame.Rect(bul[0], bul[1], img.BULLET_WIDTH, img.BULLET_HEIGHT)
@@ -41,17 +41,17 @@ def handle_bullets(bullets: list,enemies: list):
                     bullets.remove(bul)
                 except ValueError:
                     pass
-            elif bullet.colliderect(ene):
+            elif bullet.colliderect(ene.rect):
                 bullets.remove(bul)
                 enemies.remove(ene)
                 pygame.event.post(pygame.event.Event(img.HIT))
-                enemies.append(Enemy().small_enemy())
+                enemies.append(SmallEnemy())
 
 
 def main():
     player = pygame.Rect(600, 800, img.SHIP_WIDTH, img.SHIP_HIGHT)    
     bullets = []
-    enemies = [Enemy().small_enemy(), Enemy().small_enemy()]
+    enemies = [SmallEnemy(), BigEnemy()]
     hits = 0
  
     clock = pygame.time.Clock()

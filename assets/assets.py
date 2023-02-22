@@ -19,10 +19,6 @@ class img:
     SHIP_IMAGE = pygame.image.load(os.path.join('assets','craft.png'))
     SHIP = pygame.transform.scale(SHIP_IMAGE, (SHIP_WIDTH, SHIP_HIGHT))
 
-    ENEMY1_WIDTH, ENEMY1_HEIGHT = 30, 30
-    ENEMY1_IMAGE = pygame.image.load(os.path.join('assets','enemy.png'))
-    ENEMY1 = pygame.transform.scale(ENEMY1_IMAGE, (ENEMY1_WIDTH, ENEMY1_HEIGHT))
-
     BULLET_WIDTH, BULLET_HEIGHT = 20, 20
     BULLET_IMAGE = pygame.image.load(os.path.join('assets','bullet.png'))
     BULLET = pygame.transform.scale(BULLET_IMAGE, (BULLET_WIDTH, BULLET_HEIGHT))
