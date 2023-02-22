@@ -1,7 +1,7 @@
 import pygame
 import random
 from assets.assets import img
-from entities import SmallEnemy, BigEnemy
+from entities import *
 
 
 def draw_window(player, enemies: list, bullets: list, hits: int):
@@ -45,13 +45,13 @@ def handle_bullets(bullets: list, enemies: list):
                 bullets.remove(bul)
                 enemies.remove(ene)
                 pygame.event.post(pygame.event.Event(img.HIT))
-                enemies.append(SmallEnemy())
+                enemies.append(SpawnSmallEnemy())
 
 
 def main():
     player = pygame.Rect(600, 800, img.SHIP_WIDTH, img.SHIP_HIGHT)    
     bullets = []
-    enemies = [SmallEnemy(), BigEnemy()]
+    enemies = [SpawnSmallEnemy()]
     hits = 0
  
     clock = pygame.time.Clock()

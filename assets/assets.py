@@ -12,7 +12,7 @@ class img:
     HIT = pygame.USEREVENT + 1
     HIT_FONT = pygame.font.SysFont('consolas', 40)
 
-    WIDTH, HEIGHT = 1200, 1200
+    WIDTH, HEIGHT = 1200, 700
     WIN = pygame.display.set_mode((WIDTH,HEIGHT))
 
     SHIP_WIDTH, SHIP_HIGHT = 80, 80
