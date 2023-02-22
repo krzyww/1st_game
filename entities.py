@@ -18,6 +18,4 @@ class SpawnSmallEnemy(DefaultEnemy):
         super().__init__()
 
 
-a = SpawnSmallEnemy()
-
 
