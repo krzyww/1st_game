@@ -17,7 +17,7 @@ class DefaultEnemy:
     def set_height(self, value):
         self.height = value
 
-    def set_weight(self, value):
+    def set_width(self, value):
         self.width = value
 
 
@@ -25,7 +25,7 @@ class SpawnSmallEnemy(DefaultEnemy):
     def __init__(self) -> None:
         super().__init__()
         self.set_height(30)
-        self.set_weight(30)
+        self.set_width(30)
         self.aaa()
 
 
