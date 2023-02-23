@@ -42,14 +42,18 @@ def handle_bullets(bullets: list, enemies: list):
                 except ValueError:
                     pass
             elif bullet.colliderect(ene.rect):
-                bullets.remove(bul)
+                try:
+                    bullets.remove(bul)
+                except ValueError:
+                    pass
                 enemies.remove(ene)
                 pygame.event.post(pygame.event.Event(img.HIT))
                 enemies.append(SpawnSmallEnemy())
+                enemies.append(SpawnRafal())
 
 
 def main():
-    player = pygame.Rect(600, 800, img.SHIP_WIDTH, img.SHIP_HIGHT)    
+    player = pygame.Rect(img.WIDTH/2, img.HEIGHT*3/4, img.SHIP_WIDTH, img.SHIP_HIGHT)    
     bullets = []
     enemies = [SpawnSmallEnemy()]
     hits = 0
